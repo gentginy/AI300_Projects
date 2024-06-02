@@ -1,1 +1,62 @@
+# In-Class Practice: Write your own class from scratch
+
+class CreditCard:
+    def __init__(self, account_number, credit_limit):
+        self.account_number = account_number
+        self.credit_limit = credit_limit
+        self.balance = 0
+
+    def get_balance(self):
+        return self.balance
+
+    def get_credit_limit(self):
+        return self.credit_limit
+
+    def set_credit_limit(self, new_credit_limit):
+        if new_credit_limit < 0 or new_credit_limit > 100000:
+            print("Error: Credit limit should not be negative or above $100,000")
+        else: 
+            self.credit_limit = new_credit_limit
+
+    def make_purchase(self, purchase_amount):
+        available_credit = self.credit_limit - self.balance
+        if purchase_amount < 0:
+            print("Error: Purchase amount should not be negative")
+        elif purchase_amount > available_credit:
+            print("Error: Insufficient balance")
+        else:
+            self.balance += purchase_amount
+
+    def make_payment(self, payment):
+        if payment < 0:
+            print("Error: payment should not be negative")
+        else:
+            self.balance -= payment
+            if self.balance < 0:
+                self.balance = 0
+
+# Uncomment all lines to test your class once completed
+
+my_credit_card = CreditCard(123456789, 5000)
+assert my_credit_card.account_number == 123456789
+assert my_credit_card.get_balance() == 0
+assert my_credit_card.get_credit_limit() == 5000
+
+my_credit_card.set_credit_limit(1000)
+my_credit_card.set_credit_limit(-1)       # print error
+my_credit_card.set_credit_limit(100001)   # print error
+assert my_credit_card.get_credit_limit() == 1000
+
+my_credit_card.make_purchase(900)
+my_credit_card.make_purchase(-1)          # print error
+my_credit_card.make_purchase(200)         # print error
+assert my_credit_card.get_balance() == 900
+
+my_credit_card.make_payment(500)
+assert my_credit_card.get_balance() == 400
+
+my_credit_card.make_payment(5000)
+assert my_credit_card.get_balance() == 0
+
+print("All tests passed!")
 
